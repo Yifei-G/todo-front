@@ -1,17 +1,23 @@
-const initialState = {
-  articles: [
-  	{ title: 'Bananen' }
-  ]
-};
+import { createSlice } from '@reduxjs/toolkit';
 
-function rootReducer(state = initialState, action: any) {
-  if (action.type === "ADD_ARTICLE") {
-    return {
-      articles: state.articles.concat(action.payload)
-    };
-  }
+export const articleSlice = createSlice({
+  name: 'articles',
+  initialState: {
+    articles: [
+      { title: 'Bananen' }
+    ]
+  },
+  reducers: {
+    addArticle: (state, action) => {
+      const article = {
+        title: action.payload.title
+      };
+      state.articles.push(article);
+    },
+  },
+});
 
-  return state;
-}
 
-export default rootReducer;
+export const { addArticle } = articleSlice.actions;
+
+export default articleSlice.reducer;

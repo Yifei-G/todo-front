@@ -1,21 +1,21 @@
 import * as React from 'react';
-import { RefObject } from 'react';
-import { bindActionCreators } from 'redux';
 import { connect, } from 'react-redux';
-import store from './store';
-
-// Components
+import { useDispatch } from 'react-redux';
+import { addArticle } from "./reducer";
 
 export interface IArticleListProps {
 	articles: IArticle[];
-	addArticle: (title: IArticle) => void;
 };
 
 function ArticleList(props: IArticleListProps) {
+	const dispatch = useDispatch();
+
 	function onClick() {
 		const article: IArticle = { title: 'Orangen' };
 
-		props.addArticle(article);
+		dispatch(
+			addArticle(article)
+		);
 	}
 
     return (
@@ -44,22 +44,11 @@ function Article(props: IArticle) {
 	);
 }
 
-
-
 // Redux
 
 const mapStateToProps = (state: IStoreState) => {
   return { articles: state.articles };
 };
-
-function mapDispatchToProps(dispatch: any) {
-  return {
-    addArticle: (article: IArticle) => {
-    	const action = { type: "ADD_ARTICLE", payload: article };
-    	dispatch(action);
-    }
-  };
-}
 
 // Interfaces
 
@@ -68,8 +57,7 @@ export interface IStoreState {
 };
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(ArticleList);
 
 
